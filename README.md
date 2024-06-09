@@ -31,6 +31,15 @@ To build & run docker container with PSQL as a storage inside of it.
 ```
 After running application will be available at [localhost:8080](localhost:8080)
 
+Connecting to the Database
+After starting the main container, you can connect to the PostgreSQL database with the following credentials:
+
+- Host: `localhost`
+- Port: `5432`
+- Database: `mydatabase`
+- Username: `myuser`
+- Password: `mypassword`
+
 
 To Start isolated DB for tests & run tests from [UrlShortenerApplicationTests.java](src%2Ftest%2Fjava%2Fcom%2Fowlsdonttalk%2Furlshortener%2FUrlShortenerApplicationTests.java)
 ```
