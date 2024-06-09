@@ -1,0 +1,32 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-url_table
+      author: Ivan M.
+      changes:
+        - createTable:
+            tableName: url_tbl
+            columns:
+              - column:
+                  name: id
+                  type: SERIAL
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: status
+                  type: VARCHAR(10)
+              - column:
+                  name: shortened_url
+                  type: VARCHAR(255)
+              - column:
+                  name: original_url
+                  type: VARCHAR(255)
+              - column:
+                  name: created_at
+                  type: TIMESTAMP
+              - column:
+                  name: updated_at
+                  type: TIMESTAMP
+              - column:
+                  name: click_count
+                  type: INT

@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    networks:
+      - my-network
+    entrypoint: ["java", "-jar", "/app/UrlShortener-0.0.1-SNAPSHOT.jar"]
+
+  postgres:
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=myuser
+      - POSTGRES_PASSWORD=mypassword
+      - POSTGRES_DB=mydatabase
+    volumes:
+      - ~/data/psql/url:/var/lib/postgresql/data
+    networks:
+      - my-network
+
+networks:
+  my-network:
+    driver: bridge
