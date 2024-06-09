@@ -18,7 +18,9 @@ public class UrlEntity {
     private LocalDateTime updatedAt;
     private int clickCount;
 
-    // Геттеры и сеттеры для всех полей
+    public Long getId() {
+        return id;
+    }
 
     public String getStatus() {
         return status;
