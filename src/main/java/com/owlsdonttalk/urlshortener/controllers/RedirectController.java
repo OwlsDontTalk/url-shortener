@@ -24,15 +24,15 @@ public class RedirectController {
 
     @GetMapping("/{shortUrl}")
     public ResponseEntity<Object> redirectToOriginalUrl(@PathVariable String shortUrl) {
-        Optional<UrlEntity> urlEntityOptional = urlEntityRepository.findByShortenedUrl(shortUrl);
+        Optional<UrlEntity> urlEntity = urlEntityRepository.findByShortenedUrl(shortUrl);
 
-        if (urlEntityOptional.isPresent()) {
-            UrlEntity urlEntity = urlEntityOptional.get();
-            urlEntity.setClickCount(urlEntity.getClickCount() + 1);
-            urlEntityRepository.save(urlEntity);
-            return ResponseEntity.status(HttpStatus.FOUND).location(URI.create(urlEntity.getOriginalUrl())).build();
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        return urlEntity
+                .filter(entity -> "active".equals(entity.getStatus()))
+                .map(entity -> {
+                    entity.setClickCount(entity.getClickCount() + 1);
+                    urlEntityRepository.save(entity);
+                    return ResponseEntity.status(HttpStatus.FOUND).location(URI.create(entity.getOriginalUrl())).build();
+                })
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 }

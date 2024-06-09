@@ -22,7 +22,6 @@ public class UrlEntityController {
     @Autowired
     private UrlEntityRepository urlEntityRepository;
 
-    // TODO: Move to .ENV or change by hand.
     private final String BASE_URL = "http://localhost:8080/";
 
     @PostMapping("/create")
@@ -40,15 +39,12 @@ public class UrlEntityController {
 
         UrlEntity urlEntity = new UrlEntity();
         urlEntity.setOriginalUrl(originalUrl);
-        urlEntity.setCreatedAt(LocalDateTime.now());
-        urlEntity.setUpdatedAt(LocalDateTime.now());
         urlEntity.setShortenedUrl(generateUniqueShortUrl());
 
         urlEntityRepository.save(urlEntity);
 
         return new ResponseEntity<>(BASE_URL + urlEntity.getShortenedUrl(), HttpStatus.CREATED);
     }
-
 
     @GetMapping("/{shortUrl}")
     public ResponseEntity<UrlEntity> getUrlEntityByShortUrl(@PathVariable String shortUrl) {
@@ -60,7 +56,10 @@ public class UrlEntityController {
     public ResponseEntity<Void> deleteUrlEntity(@PathVariable String shortUrl) {
         Optional<UrlEntity> urlEntity = urlEntityRepository.findByShortenedUrl(shortUrl);
         if (urlEntity.isPresent()) {
-            urlEntityRepository.delete(urlEntity.get());
+            UrlEntity entity = urlEntity.get();
+            entity.setStatus("deleted");
+            entity.setUpdatedAt(LocalDateTime.now());
+            urlEntityRepository.save(entity);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -89,6 +88,33 @@ public class UrlEntityController {
             urlEntityRepository.save(entity);
             return new ResponseEntity<>(entity, HttpStatus.OK);
         }).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
+    @PatchMapping("/{shortUrl}/status")
+    public ResponseEntity<UrlEntity> updateStatus(@PathVariable String shortUrl, @RequestBody Map<String, String> updates) {
+        Optional<UrlEntity> urlEntity = urlEntityRepository.findByShortenedUrl(shortUrl);
+        if (urlEntity.isPresent()) {
+            UrlEntity entity = urlEntity.get();
+            if (updates.containsKey("status")) {
+                String status = updates.get("status");
+                if (isValidStatus(status)) {
+                    entity.setStatus(status);
+                    entity.setUpdatedAt(LocalDateTime.now());
+                    urlEntityRepository.save(entity);
+                    return ResponseEntity.ok(entity);
+                } else {
+                    return ResponseEntity.badRequest().build();
+                }
+            } else {
+                return ResponseEntity.badRequest().build();
+            }
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    private boolean isValidStatus(String status) {
+        return status.equals("active") || status.equals("suspended") || status.equals("deleted") || status.equals("paused");
     }
 
     private boolean isValidUrl(String url) {

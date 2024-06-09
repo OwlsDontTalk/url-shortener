@@ -18,6 +18,18 @@ public class UrlEntity {
     private LocalDateTime updatedAt;
     private int clickCount;
 
+    @PrePersist
+    public void prePersist() {
+        this.status = "active";
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        this.updatedAt = LocalDateTime.now();
+    }
+
     public Long getId() {
         return id;
     }
