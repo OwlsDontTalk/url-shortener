@@ -90,29 +90,6 @@ public class UrlEntityController {
         }).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @PatchMapping("/{shortUrl}/status")
-    public ResponseEntity<UrlEntity> updateStatus(@PathVariable String shortUrl, @RequestBody Map<String, String> updates) {
-        Optional<UrlEntity> urlEntity = urlEntityRepository.findByShortenedUrl(shortUrl);
-        if (urlEntity.isPresent()) {
-            UrlEntity entity = urlEntity.get();
-            if (updates.containsKey("status")) {
-                String status = updates.get("status");
-                if (isValidStatus(status)) {
-                    entity.setStatus(status);
-                    entity.setUpdatedAt(LocalDateTime.now());
-                    urlEntityRepository.save(entity);
-                    return ResponseEntity.ok(entity);
-                } else {
-                    return ResponseEntity.badRequest().build();
-                }
-            } else {
-                return ResponseEntity.badRequest().build();
-            }
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
-
     private boolean isValidStatus(String status) {
         return status.equals("active") || status.equals("suspended") || status.equals("deleted") || status.equals("paused");
     }
