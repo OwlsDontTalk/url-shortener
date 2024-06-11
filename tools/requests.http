@@ -1,0 +1,35 @@
+### Create a short URL
+POST http://localhost:8080/api/url/create
+Content-Type: application/json
+
+{
+  "originalUrl": "http://example.com"
+}
+
+### For following requests use response from POST /api/url/create
+
+### Get URL entity by short URL
+GET http://localhost:8080/api/url/{{shortUrl}}
+
+### Delete URL entity by short URL
+DELETE http://localhost:8080/api/url/{{shortUrl}}
+
+### Update URL entity by short URL
+PUT http://localhost:8080/api/url/{{shortUrl}}
+Content-Type: application/json
+
+{
+  "originalUrl": "http://updated-example.com"
+}
+
+### Patch URL entity by short URL
+PATCH http://localhost:8080/api/url/{{shortUrl}}
+Content-Type: application/json
+
+{
+  "originalUrl": "http://patched-example.com"
+}
+
+### Check if redirect works
+GET http://localhost:8080/{{shortUrl}}
+Content-Type: application/json

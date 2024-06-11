@@ -1,15 +1,12 @@
 # URL Shortener API
-API for short URL creation
-
-## Project structure
-- [Url Shortener](src%2Fmain%2Fjava%2Fcom%2Fowlsdonttalk%2Furlshortener): this package has
-  Model, Repository and Controllers for handling simple API for URL Shorten Entity
-- [Resources](src%2Fmain%2Fresources): this group contains properties for running application, tests & migration
-  to set up persistent storage
-- [Tools](tools): this folder has Docker container with PostgresSQL, needed for tests
+This is an API application that allows you to create short version on URLs and serves as a redirect proxy
+for those URLs.  
 
 ## Project setup and run
 All commands should be run from the repository root.
+
+## Project requirements
+- `Docker`
 
 ### Get the code
 Clone the repository and go to its root.
@@ -19,11 +16,18 @@ git clone https://github.com/owlsdonttalk/url-shortener
 cd url-shortener
 ```
 
+
 ### Application commands
 To build & run docker container with PSQL as a storage inside of it.
 
+In development mode: 
 ```
-docker-compose up --build
+SPRING_PROFILES_ACTIVE=dev docker-compose up --build
+```
+
+In production mode: 
+```
+SPRING_PROFILES_ACTIVE=prod docker-compose up --build
 ```
 
 ### API Endpoints
@@ -35,14 +39,11 @@ After you got application up & running try one of the following:
 - Method: POST
 - Content-Type: application/json
 - Creates a shortened URL
-- force flag is used to suppress url validation check (if needed)
 
 ***Request Body:***
-
 ```
 {
   "originalUrl": "http://example.com",
-  "force": "true"   
 }
 ```
 #### 2. Get URL Entity by Short URL
