@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.ResponseEntity;
 
 @RestController
-public class StatusController {
+public class MainController {
 
     @GetMapping("/")
     public ResponseEntity<Void> healthCheck() {

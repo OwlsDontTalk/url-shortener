@@ -33,3 +33,16 @@ Content-Type: application/json
 ### Check if redirect works
 GET http://localhost:8080/{{shortUrl}}
 Content-Type: application/json
+
+
+### Get shortened url click count
+GET http://localhost:8080/api/stats/{{shortUrl}}
+Content-Type: application/json
+
+### Get shortened url click count
+GET http://localhost:8080/api/stats/overall
+Content-Type: application/json
+
+### Get shortened url click count
+GET http://localhost:8080/api/stats/status/deleted
+Content-Type: application/json

@@ -33,53 +33,48 @@ SPRING_PROFILES_ACTIVE=prod docker-compose up --build
 ### API Endpoints
 After you got application up & running try one of the following:
 
+#### Actuator Endpoints
+
+- Health: `` /actuator/health ``
+- Other Actuator endpoints: `` /actuator ``
+
+#### Shortening API
+
 #### 1. Create Short URL
 
-- Endpoint: ```/api/url/create```
-- Method: POST
+- **POST** ```/api/url/create```
 - Content-Type: application/json
 - Creates a shortened URL
 
 ***Request Body:***
 ```
-{
-  "originalUrl": "http://example.com",
-}
+{ "originalUrl": "http://example.com" }
 ```
 #### 2. Get URL Entity by Short URL
 
-- Endpoint: ```/api/url/{shortUrl}```
-- Method: GET
+- **GET** ```/api/url/{shortUrl}```
 - Retrieves the URL entity by its shortened URL.
 
 #### 3. Delete URL Entity
-- Endpoint: ```/api/url/{shortUrl}```
-- Method: DELETE
+- **DELETE** ```/api/url/{shortUrl}```
 - Deletes the URL entity by its shortened URL.
 
 #### 4. Update URL Entity
-- Endpoint: ```/api/url/{shortUrl}```
-- Method: PUT
+- **PUT** ```/api/url/{shortUrl}```
 - Content-Type: application/json
 - Updates the URL entity with new data.
 ```
-{
-"originalUrl": "http://anotherexample.com"
-}
+{ "originalUrl": "http://anotherexample.com" }
 ```
 
 #### 5. Patch URL Entity
-- Endpoint: ```/api/url/{shortUrl}```
-- Method: PATCH
+- **PATCH** ```/api/url/{shortUrl}```
 - Content-Type: application/json
 - Partially updates the URL entity
 ```
-{ 
-  "originalUrl": "http://anotherexample.com"
-}
+{  "originalUrl": "http://anotherexample.com" }
 ```
 
 #### 6. Redirect to Original URL
-- Endpoint: ```/{shortUrl}```
-- Method: GET
+- **GET** ```/{shortUrl}```
 - Redirects to the original URL based on the shortened URL.
