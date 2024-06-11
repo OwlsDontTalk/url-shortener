@@ -83,3 +83,18 @@ After you got application up & running try one of the following:
 #### 6. Redirect to Original URL
 - **GET** ```/{shortUrl}```
 - Redirects to the original URL based on the shortened URL.
+
+
+#### Statistics API
+
+#### Get URL Click Count
+- **GET** ``` /api/stats/{shortUrl} ```
+- Retrieves the click count for the specified shortened URL.
+
+#### Get Overall URL Count
+- **GET** ``` /api/stats/overall ```
+- Retrieves the total count of URLs.
+ 
+#### Get URL Count by Status
+- **GET** ``` /api/stats/status/{status} ```
+- Retrieves the count of URLs by their status.
