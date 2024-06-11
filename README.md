@@ -30,6 +30,11 @@ In production mode:
 SPRING_PROFILES_ACTIVE=prod docker-compose up --build
 ```
 
+To run tests:
+```
+./mvnw test
+```
+
 ### API Endpoints
 After you got application up & running try one of the following:
 
